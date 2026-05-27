@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { BookCard } from "@/components/books/book-card";
 import { Input } from "@/components/ui/input";
@@ -7,10 +7,15 @@ import { Button } from "@/components/ui/button";
 import { useDebounce } from "@/hooks/use-debounce";
 
 type Book = {
-  id: string; title: string; author: string; price: string; image: string; rating: number;
+  id: string;
+  title: string;
+  author: string;
+  price: string;
+  image: string;
+  rating: number;
 };
 
-export default function BooksPage() {
+function BooksContent() {
   const router = useRouter();
   const sp = useSearchParams();
   const [q, setQ] = useState(sp.get("q") ?? "");
@@ -20,13 +25,17 @@ export default function BooksPage() {
   const debounced = useDebounce(q);
 
   const [data, setData] = useState<{ items: Book[]; pages: number; total: number }>({
-    items: [], pages: 1, total: 0,
+    items: [],
+    pages: 1,
+    total: 0,
   });
   const [categories, setCategories] = useState<{ slug: string; name: string }[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch("/api/categories").then((r) => r.json()).then((res) => setCategories(res.data ?? []));
+    fetch("/api/categories")
+      .then((r) => r.json())
+      .then((res) => setCategories(res.data ?? []));
   }, []);
 
   useEffect(() => {
@@ -45,28 +54,39 @@ export default function BooksPage() {
 
   return (
     <div className="container py-10">
-      <h1 className="text-3xl font-bold mb-6">Browse Books</h1>
-      <div className="grid md:grid-cols-[260px_1fr] gap-8">
+      <h1 className="mb-6 text-3xl font-bold">Browse Books</h1>
+      <div className="grid gap-8 md:grid-cols-[260px_1fr]">
         <aside className="space-y-6">
           <div className="space-y-2">
             <label className="text-sm font-medium">Search</label>
-            <Input placeholder="Title or author..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <Input
+              placeholder="Title or author..."
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+            />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Category</label>
             <select
-              className="w-full h-10 rounded-md border bg-background px-3 text-sm"
+              className="h-10 w-full rounded-md border bg-background px-3 text-sm"
               value={category}
-              onChange={(e) => { setCategory(e.target.value); setPage(1); }}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                setPage(1);
+              }}
             >
               <option value="">All</option>
-              {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+              {categories.map((c) => (
+                <option key={c.slug} value={c.slug}>
+                  {c.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Sort by</label>
             <select
-              className="w-full h-10 rounded-md border bg-background px-3 text-sm"
+              className="h-10 w-full rounded-md border bg-background px-3 text-sm"
               value={sort}
               onChange={(e) => setSort(e.target.value)}
             >
@@ -84,18 +104,48 @@ export default function BooksPage() {
             <p className="text-muted-foreground">No books found.</p>
           ) : (
             <>
-              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {data.items.map((b) => <BookCard key={b.id} book={b} />)}
+              <div className="grid grid-cols-2 gap-6 lg:grid-cols-3 xl:grid-cols-4">
+                {data.items.map((b) => (
+                  <BookCard key={b.id} book={b} />
+                ))}
               </div>
-              <div className="flex justify-center items-center gap-2 mt-8">
-                <Button variant="outline" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>Prev</Button>
-                <span className="text-sm">Page {page} of {data.pages}</span>
-                <Button variant="outline" disabled={page >= data.pages} onClick={() => setPage((p) => p + 1)}>Next</Button>
+              <div className="mt-8 flex items-center justify-center gap-2">
+                <Button
+                  variant="outline"
+                  disabled={page <= 1}
+                  onClick={() => setPage((p) => p - 1)}
+                >
+                  Prev
+                </Button>
+                <span className="text-sm">
+                  Page {page} of {data.pages}
+                </span>
+                <Button
+                  variant="outline"
+                  disabled={page >= data.pages}
+                  onClick={() => setPage((p) => p + 1)}
+                >
+                  Next
+                </Button>
               </div>
             </>
           )}
         </section>
       </div>
     </div>
+  );
+}
+
+export default function BooksPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container py-10">
+          <p className="text-muted-foreground">Loading books...</p>
+        </div>
+      }
+    >
+      <BooksContent />
+    </Suspense>
   );
 }

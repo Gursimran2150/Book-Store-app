@@ -1,12 +1,12 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const router = useRouter();
   const sp = useSearchParams();
   const token = sp.get("token") ?? "";
@@ -16,7 +16,8 @@ export default function ResetPasswordPage() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true); setErr("");
+    setLoading(true);
+    setErr("");
     const res = await fetch("/api/auth/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -29,20 +30,44 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="container py-16 flex justify-center">
+    <div className="container flex justify-center py-16">
       <Card className="w-full max-w-md">
-        <CardHeader><CardTitle>Reset password</CardTitle></CardHeader>
+        <CardHeader>
+          <CardTitle>Reset password</CardTitle>
+        </CardHeader>
         <CardContent>
           <form onSubmit={submit} className="space-y-4">
             <div className="space-y-2">
               <Label>New password</Label>
-              <Input type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} />
+              <Input
+                type="password"
+                required
+                minLength={8}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             {err && <p className="text-sm text-destructive">{err}</p>}
-            <Button className="w-full" disabled={loading || !token}>{loading ? "Saving..." : "Reset password"}</Button>
+            <Button className="w-full" disabled={loading || !token}>
+              {loading ? "Saving..." : "Reset password"}
+            </Button>
           </form>
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container flex justify-center py-16">
+          <p>Loading...</p>
+        </div>
+      }
+    >
+      <ResetPasswordForm />
+    </Suspense>
   );
 }

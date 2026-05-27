@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -11,18 +11,23 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { loginSchema, type LoginInput } from "@/validations/auth";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const sp = useSearchParams();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginInput>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   });
 
   async function onSubmit(data: LoginInput) {
-    setLoading(true); setError("");
+    setLoading(true);
+    setError("");
     const res = await signIn("credentials", { ...data, redirect: false });
     setLoading(false);
     if (res?.error) return setError("Invalid email or password");
@@ -31,7 +36,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="container py-16 flex justify-center">
+    <div className="container flex justify-center py-16">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Welcome back</CardTitle>
@@ -47,19 +52,42 @@ export default function LoginPage() {
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" {...register("password")} />
-              {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
+              {errors.password && (
+                <p className="text-xs text-destructive">{errors.password.message}</p>
+              )}
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
-          <div className="text-sm text-center mt-4 space-y-2">
-            <Link href="/forgot-password" className="text-primary hover:underline">Forgot password?</Link>
-            <p>Don&apos;t have an account? <Link href="/register" className="text-primary hover:underline">Sign up</Link></p>
+          <div className="mt-4 space-y-2 text-center text-sm">
+            <Link href="/forgot-password" className="text-primary hover:underline">
+              Forgot password?
+            </Link>
+            <p>
+              Don&apos;t have an account?{" "}
+              <Link href="/register" className="text-primary hover:underline">
+                Sign up
+              </Link>
+            </p>
           </div>
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container flex justify-center py-16">
+          <p>Loading...</p>
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

@@ -1,10 +1,14 @@
+// Full server-only auth — includes PrismaAdapter + bcrypt.
+// Never imported by middleware (which runs on Edge).
 import NextAuth, { type DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import { loginSchema } from "@/validations/auth";
+import { authConfig } from "@/lib/auth.config";
 import type { Role } from "@prisma/client";
 
+// ── Session type augmentation ──────────────────────────────────────────────────
 declare module "next-auth" {
   interface Session {
     user: { id: string; role: Role } & DefaultSession["user"];
@@ -13,18 +17,11 @@ declare module "next-auth" {
     role?: Role;
   }
 }
-
-declare module "next-auth/jwt" {
-  interface JWT {
-    id: string;
-    role: Role;
-  }
-}
+// ─────────────────────────────────────────────────────────────────────────────
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
-  pages: { signIn: "/login" },
   providers: [
     Credentials({
       name: "credentials",
@@ -39,7 +36,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const user = await prisma.user.findUnique({ where: { email: parsed.data.email } });
         if (!user) return null;
 
-        // Dynamic import keeps bcrypt out of the Edge runtime bundle
+        // Dynamic import — keeps bcrypt out of any edge bundle
         const bcrypt = await import("bcryptjs");
         const valid = await bcrypt.compare(parsed.data.password, user.password);
         if (!valid) return null;
@@ -54,22 +51,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id as string;
-        token.role = (user.role ?? "USER") as Role;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id;
-        session.user.role = token.role;
-      }
-      return session;
-    },
-  },
   secret: process.env.NEXTAUTH_SECRET,
 });
 

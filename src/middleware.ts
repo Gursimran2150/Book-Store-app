@@ -1,5 +1,10 @@
+// Middleware runs on Edge — import only from the edge-safe authConfig,
+// NOT from auth.ts (which pulls in bcrypt + PrismaAdapter).
+import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { authConfig } from "@/lib/auth.config";
+
+const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;
