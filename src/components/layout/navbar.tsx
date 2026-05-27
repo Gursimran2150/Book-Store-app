@@ -19,7 +19,6 @@ export function Navbar() {
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Link href="/books" className="hover:text-primary transition-colors">Books</Link>
-          <Link href="/categories" className="hover:text-primary transition-colors">Categories</Link>
         </nav>
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} aria-label="Toggle theme">

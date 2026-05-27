@@ -26,9 +26,6 @@ export default async function HomePage() {
             <Link href="/books">
               <Button size="lg">Shop Books</Button>
             </Link>
-            <Link href="/categories">
-              <Button size="lg" variant="outline">Browse Categories</Button>
-            </Link>
           </div>
         </div>
       </section>

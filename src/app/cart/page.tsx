@@ -29,7 +29,8 @@ export default function CartPage() {
   async function checkout() {
     if (!session?.user) return router.push("/login?callbackUrl=/cart");
     setLoading(true);
-    // Sync cart to backend first
+    // Clear DB cart first, then sync local state (avoids double-increment)
+    await fetch("/api/cart", { method: "DELETE" });
     for (const item of items) {
       await fetch("/api/cart", {
         method: "POST",
