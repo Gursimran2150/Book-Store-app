@@ -23,7 +23,7 @@ function BooksContent() {
   const [sort, setSort] = useState(sp.get("sort") ?? "newest");
   const [category, setCategory] = useState(sp.get("category") ?? "");
   const [page, setPage] = useState(Number(sp.get("page") ?? 1));
-  const [maxPrice, setMaxPrice] = useState<number>(Number(sp.get("maxPrice") ?? 100));
+  const [maxPrice, setMaxPrice] = useState<number>(Number(sp.get("maxPrice") ?? 1000));
   const debounced = useDebounce(q);
 
   const [data, setData] = useState<{ items: Book[]; pages: number; total: number }>({
@@ -68,7 +68,7 @@ function BooksContent() {
     if (debounced) params.set("q", debounced);
     if (category) params.set("category", category);
     if (sort) params.set("sort", sort);
-    if (maxPrice < 100) params.set("maxPrice", String(maxPrice));
+    if (maxPrice < 1000) params.set("maxPrice", String(maxPrice));
     params.set("page", String(page));
     setLoading(true);
 
@@ -93,7 +93,7 @@ function BooksContent() {
     setCategory("");
     setSort("newest");
     setPage(1);
-    setMaxPrice(100);
+    setMaxPrice(1000);
     setSelectedFormats(["paperback", "hardcover", "ebook", "audiobook"]);
   };
 
@@ -108,7 +108,7 @@ function BooksContent() {
         {/* Sidebar Navigation & Filters */}
         <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-black tracking-tight text-white">Browse Books</h2>
+            <h2 className="text-lg font-black tracking-tight text-foreground">Browse Books</h2>
             <button
               onClick={resetFilters}
               className="text-xs font-bold text-muted-foreground hover:text-primary uppercase tracking-wider transition-colors"
@@ -130,7 +130,7 @@ function BooksContent() {
                   setQ(e.target.value);
                   setPage(1);
                 }}
-                className="h-10 w-full rounded-md border border-white/5 bg-[#121316]/50 px-3 text-sm font-semibold text-white placeholder-muted-foreground outline-none transition-colors focus:border-primary/50 focus:bg-[#121316]/80"
+                className="h-10 w-full rounded-md border border-border bg-card/50 px-3 text-sm font-semibold text-foreground placeholder-muted-foreground outline-none transition-colors focus:border-primary/50 focus:bg-card/80"
               />
             </div>
           </div>
@@ -148,7 +148,7 @@ function BooksContent() {
                 className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-bold transition-all ${
                   category === ""
                     ? "bg-primary text-primary-foreground shadow-[0_4px_12px_rgba(29,185,84,0.25)]"
-                    : "text-muted-foreground hover:bg-white/5 hover:text-white"
+                    : "text-muted-foreground hover:bg-accent hover:text-foreground"
                 }`}
               >
                 <span>All Categories</span>
@@ -171,7 +171,7 @@ function BooksContent() {
                     className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-bold transition-all ${
                       isActive
                         ? "bg-primary text-primary-foreground shadow-[0_4px_12px_rgba(29,185,84,0.25)]"
-                        : "text-muted-foreground hover:bg-white/5 hover:text-white"
+                        : "text-muted-foreground hover:bg-accent hover:text-foreground"
                     }`}
                   >
                     <span>{c.name}</span>
@@ -190,7 +190,7 @@ function BooksContent() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="h-10 w-full rounded-md border border-white/5 bg-[#121316]/50 px-3 text-sm font-bold text-white outline-none transition-colors focus:border-primary/50"
+              className="h-10 w-full rounded-md border border-border bg-card/50 px-3 text-sm font-bold text-foreground outline-none transition-colors focus:border-primary/50"
             >
               <option value="newest">Newest Releases</option>
               <option value="price_asc">Price: Low to High</option>
@@ -209,15 +209,15 @@ function BooksContent() {
                   <div
                     key={f.id}
                     onClick={() => toggleFormat(f.id)}
-                    className="flex cursor-pointer items-center justify-between text-sm text-muted-foreground hover:text-white transition-colors"
+                    className="flex cursor-pointer items-center justify-between text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
                       <div className={`flex h-4 w-4 items-center justify-center rounded border transition-all ${
-                        isChecked ? "border-primary bg-primary text-primary-foreground shadow-[0_0_8px_rgba(29,185,84,0.2)]" : "border-white/20 bg-transparent"
+                        isChecked ? "border-primary bg-primary text-primary-foreground shadow-[0_0_8px_rgba(29,185,84,0.2)]" : "border-border bg-transparent"
                       }`}>
                         {isChecked && <Check className="h-3 w-3 stroke-[4]" />}
                       </div>
-                      <span className={`font-bold ${isChecked ? "text-white" : ""}`}>{f.name}</span>
+                      <span className={`font-bold ${isChecked ? "text-foreground" : ""}`}>{f.name}</span>
                     </div>
                     <span className="text-xs font-semibold text-muted-foreground/60">{f.count.toLocaleString()}</span>
                   </div>
@@ -230,21 +230,21 @@ function BooksContent() {
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs font-bold text-muted-foreground uppercase tracking-wider">
               <span>Price Range</span>
-              <span className="text-white font-black tracking-normal">₹{maxPrice}</span>
+              <span className="text-foreground font-black tracking-normal">₹{maxPrice}</span>
             </div>
             <div className="space-y-1">
               <input
                 type="range"
-                min="5"
-                max="100"
-                step="5"
+                min="100"
+                max="1000"
+                step="50"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Number(e.target.value))}
-                className="w-full h-1.5 rounded-full bg-[#1e2025] appearance-none cursor-pointer accent-primary focus:outline-none"
+                className="w-full h-1.5 rounded-full bg-secondary appearance-none cursor-pointer accent-primary focus:outline-none"
               />
               <div className="flex items-center justify-between text-[10px] font-bold text-muted-foreground">
-                <span>₹0</span>
-                <span>₹100+</span>
+                <span>₹100</span>
+                <span>₹1000+</span>
               </div>
             </div>
           </div>
@@ -252,14 +252,14 @@ function BooksContent() {
 
         {/* Catalog Main Content Area */}
         <section className="space-y-6">
-          <div className="flex items-end justify-between border-b border-white/5 pb-4">
+          <div className="flex items-end justify-between border-b border-border pb-4">
             <div>
-              <h1 className="text-2xl font-black tracking-tight text-white md:text-3xl">{currentCategoryName}</h1>
+              <h1 className="text-2xl font-black tracking-tight text-foreground md:text-3xl">{currentCategoryName}</h1>
               <p className="mt-1 text-xs font-semibold text-muted-foreground">
                 Discover your next read from our curated shelves.
               </p>
             </div>
-            <span className="text-xs font-bold text-muted-foreground bg-secondary/40 border border-white/5 rounded-full px-3.5 py-1.5 uppercase tracking-wider">
+            <span className="text-xs font-bold text-muted-foreground bg-secondary/40 border border-border rounded-full px-3.5 py-1.5 uppercase tracking-wider">
               {category ? `${data.total} Books` : `2,543 Books`}
             </span>
           </div>
@@ -267,11 +267,11 @@ function BooksContent() {
           {loading ? (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="aspect-[2/3] animate-pulse rounded-xl bg-[#121316]/50 border border-white/5" />
+                <div key={i} className="aspect-[2/3] animate-pulse rounded-xl bg-card border border-border" />
               ))}
             </div>
           ) : data.items.length === 0 ? (
-            <div className="rounded-xl border border-white/5 bg-[#121316]/30 p-16 text-center text-muted-foreground">
+            <div className="rounded-xl border border-border bg-card/30 p-16 text-center text-muted-foreground">
               <p className="text-sm font-semibold">No books found in this selection.</p>
               <button
                 onClick={resetFilters}
@@ -292,7 +292,7 @@ function BooksContent() {
               <div className="mt-12 flex items-center justify-center gap-4">
                 <Button
                   variant="outline"
-                  className="rounded-full border-white/10 bg-secondary/20 hover:bg-white/5 hover:text-white"
+                  className="rounded-full border-border bg-secondary/20 hover:bg-accent hover:text-foreground"
                   disabled={page <= 1}
                   onClick={() => {
                     setPage((p) => p - 1);
@@ -301,12 +301,12 @@ function BooksContent() {
                 >
                   Prev
                 </Button>
-                <span className="rounded-full bg-secondary/50 border border-white/5 px-5 py-2 text-xs font-bold text-white">
+                <span className="rounded-full bg-secondary/50 border border-border px-5 py-2 text-xs font-bold text-foreground">
                   Page {page} of {data.pages}
                 </span>
                 <Button
                   variant="outline"
-                  className="rounded-full border-white/10 bg-secondary/20 hover:bg-white/5 hover:text-white"
+                  className="rounded-full border-border bg-secondary/20 hover:bg-accent hover:text-foreground"
                   disabled={page >= data.pages}
                   onClick={() => {
                     setPage((p) => p + 1);

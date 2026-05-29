@@ -19,11 +19,11 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(29,185,84,0.20),transparent_42%),radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.10),transparent_24rem)]" />
+      <section className="relative overflow-hidden border-b border-border">
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(29,185,84,0.15),transparent_42%),radial-gradient(circle_at_80%_20%,rgba(29,185,84,0.08),transparent_24rem)] dark:bg-[linear-gradient(135deg,rgba(29,185,84,0.20),transparent_42%),radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.10),transparent_24rem)]" />
         <div className="container relative grid min-h-[calc(100vh-4rem)] items-center gap-10 py-14 md:grid-cols-[1.05fr_0.95fr] md:py-20">
           <div className="max-w-3xl space-y-7">
-            <h1 className="max-w-4xl text-5xl font-black tracking-tight text-white md:text-7xl">
+            <h1 className="max-w-4xl text-5xl font-black tracking-tight text-foreground md:text-7xl">
               Find Your Next <span className="text-primary">Favorite Book</span>
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-muted-foreground md:text-xl">

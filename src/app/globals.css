@@ -4,22 +4,22 @@
 
 @layer base {
   :root {
-    --background: 150 8% 7%;
-    --foreground: 0 0% 96%;
-    --card: 150 7% 11%;
-    --card-foreground: 0 0% 96%;
+    --background: 0 0% 100%;
+    --foreground: 150 10% 10%;
+    --card: 0 0% 99%;
+    --card-foreground: 150 10% 10%;
     --primary: 141 73% 42%;
-    --primary-foreground: 150 16% 8%;
-    --secondary: 150 7% 15%;
-    --secondary-foreground: 0 0% 96%;
-    --muted: 150 6% 18%;
-    --muted-foreground: 150 5% 67%;
-    --accent: 141 60% 18%;
-    --accent-foreground: 0 0% 96%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 150 10% 94%;
+    --secondary-foreground: 150 10% 10%;
+    --muted: 150 8% 92%;
+    --muted-foreground: 150 5% 40%;
+    --accent: 141 50% 94%;
+    --accent-foreground: 141 73% 25%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 150 6% 18%;
-    --input: 150 6% 18%;
+    --border: 150 8% 88%;
+    --input: 150 8% 88%;
     --ring: 141 73% 42%;
     --radius: 0.5rem;
   }
@@ -50,6 +50,8 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .dark body {
     background:
       radial-gradient(circle at top left, hsl(141 73% 18% / 0.32), transparent 34rem),
       linear-gradient(180deg, hsl(150 8% 9%), hsl(150 10% 5%) 32rem);

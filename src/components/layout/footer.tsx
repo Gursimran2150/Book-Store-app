@@ -1,8 +1,8 @@
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black/30">
+    <footer className="border-t border-border bg-card/50">
       <div className="container flex flex-col items-center justify-between gap-4 py-8 text-sm text-muted-foreground md:flex-row">
-        <p>© {new Date().getFullYear()} Bookify. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Bookverse. All rights reserved.</p>
         <nav className="flex gap-4">
           <a href="/about" className="hover:text-primary">About</a>
           <a href="/contact" className="hover:text-primary">Contact</a>
