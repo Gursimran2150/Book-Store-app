@@ -24,10 +24,10 @@ export default function BestSellersPage() {
   }, []);
 
   return (
-    <div className="container py-10 px-4 md:px-8">
+    <div className="container px-4 py-10 md:px-8">
       {/* Hero Banner */}
       <div className="relative mb-10 overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-yellow-500/15 via-card to-card p-8 md:p-12">
-        <div className="absolute top-4 right-4 opacity-20">
+        <div className="absolute right-4 top-4 opacity-20">
           <Trophy className="h-32 w-32 text-yellow-500" />
         </div>
         <div className="relative space-y-3">
@@ -39,7 +39,8 @@ export default function BestSellersPage() {
             Best Sellers
           </h1>
           <p className="max-w-xl text-muted-foreground">
-            The books everyone is reading — top-rated titles loved by thousands of readers worldwide.
+            The books everyone is reading — top-rated titles loved by thousands of readers
+            worldwide.
           </p>
         </div>
       </div>
@@ -52,7 +53,7 @@ export default function BestSellersPage() {
               key={book.id}
               className="relative overflow-hidden rounded-xl border border-border bg-card p-5 transition-all hover:shadow-lg"
             >
-              <div className="absolute top-3 left-3 flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 text-sm font-black text-black shadow-md">
+              <div className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 text-sm font-black text-black shadow-md">
                 #{i + 1}
               </div>
               <div className="flex items-center gap-4 pt-6">
@@ -77,7 +78,10 @@ export default function BestSellersPage() {
       {loading ? (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {Array.from({ length: 10 }).map((_, i) => (
-            <div key={i} className="aspect-[2/3] animate-pulse rounded-xl bg-card border border-border" />
+            <div
+              key={i}
+              className="aspect-[2/3] animate-pulse rounded-xl border border-border bg-card"
+            />
           ))}
         </div>
       ) : (

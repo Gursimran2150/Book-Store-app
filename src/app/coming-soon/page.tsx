@@ -54,10 +54,10 @@ const upcomingBooks = [
 
 export default function ComingSoonPage() {
   return (
-    <div className="container py-10 px-4 md:px-8">
+    <div className="container px-4 py-10 md:px-8">
       {/* Hero Banner */}
       <div className="relative mb-10 overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-purple-500/15 via-card to-card p-8 md:p-12">
-        <div className="absolute top-4 right-4 opacity-20">
+        <div className="absolute right-4 top-4 opacity-20">
           <CalendarDays className="h-32 w-32 text-purple-500" />
         </div>
         <div className="relative space-y-3">
@@ -69,7 +69,8 @@ export default function ComingSoonPage() {
             Coming Soon
           </h1>
           <p className="max-w-xl text-muted-foreground">
-            Get a sneak peek at upcoming releases. Pre-order now and be the first to read these highly anticipated titles.
+            Get a sneak peek at upcoming releases. Pre-order now and be the first to read these
+            highly anticipated titles.
           </p>
         </div>
       </div>
@@ -79,24 +80,20 @@ export default function ComingSoonPage() {
         {upcomingBooks.map((book, i) => (
           <div
             key={i}
-            className="group flex flex-col sm:flex-row gap-5 rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/30 hover:shadow-md"
+            className="group flex flex-col gap-5 rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/30 hover:shadow-md sm:flex-row"
           >
             {/* Cover */}
             <div className="relative h-40 w-28 flex-shrink-0 overflow-hidden rounded-lg bg-secondary shadow-md sm:h-36 sm:w-24">
-              <img
-                src={book.cover}
-                alt={book.title}
-                className="h-full w-full object-cover"
-              />
+              <img src={book.cover} alt={book.title} className="h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
 
             {/* Details */}
-            <div className="flex flex-1 flex-col justify-between min-w-0">
+            <div className="flex min-w-0 flex-1 flex-col justify-between">
               <div className="space-y-2">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="text-lg font-black text-foreground group-hover:text-primary transition-colors">
+                    <h3 className="text-lg font-black text-foreground transition-colors group-hover:text-primary">
                       {book.title}
                     </h3>
                     <p className="text-sm text-muted-foreground">{book.author}</p>
@@ -105,7 +102,7 @@ export default function ComingSoonPage() {
                     {book.genre}
                   </span>
                 </div>
-                <p className="text-sm text-muted-foreground line-clamp-2">{book.description}</p>
+                <p className="line-clamp-2 text-sm text-muted-foreground">{book.description}</p>
               </div>
 
               <div className="mt-3 flex items-center justify-between">
@@ -113,7 +110,7 @@ export default function ComingSoonPage() {
                   <CalendarDays className="h-3.5 w-3.5" />
                   Expected: {book.expectedDate}
                 </div>
-                <button className="rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground shadow-sm transition-all hover:shadow-md hover:scale-105 active:scale-95">
+                <button className="rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground shadow-sm transition-all hover:scale-105 hover:shadow-md active:scale-95">
                   Notify Me
                 </button>
               </div>
@@ -124,18 +121,18 @@ export default function ComingSoonPage() {
 
       {/* Newsletter CTA */}
       <div className="mt-12 rounded-2xl border border-border bg-card p-8 text-center">
-        <BookOpen className="mx-auto h-10 w-10 text-primary mb-3" />
+        <BookOpen className="mx-auto mb-3 h-10 w-10 text-primary" />
         <h2 className="text-xl font-black text-foreground">Never Miss a Release</h2>
-        <p className="mt-2 text-sm text-muted-foreground max-w-md mx-auto">
+        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
           Subscribe to our newsletter and get notified when new books become available.
         </p>
-        <div className="mt-5 flex max-w-sm mx-auto gap-2">
+        <div className="mx-auto mt-5 flex max-w-sm gap-2">
           <input
             type="email"
             placeholder="your@email.com"
             className="h-10 flex-1 rounded-full border border-border bg-secondary/30 px-4 text-sm text-foreground placeholder-muted-foreground outline-none focus:border-primary/50"
           />
-          <button className="rounded-full bg-primary px-5 py-2 text-sm font-bold text-primary-foreground hover:opacity-90 transition-opacity">
+          <button className="rounded-full bg-primary px-5 py-2 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90">
             Subscribe
           </button>
         </div>

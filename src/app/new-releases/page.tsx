@@ -24,10 +24,10 @@ export default function NewReleasesPage() {
   }, []);
 
   return (
-    <div className="container py-10 px-4 md:px-8">
+    <div className="container px-4 py-10 md:px-8">
       {/* Hero Banner */}
       <div className="relative mb-10 overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-primary/20 via-card to-card p-8 md:p-12">
-        <div className="absolute top-4 right-4 opacity-20">
+        <div className="absolute right-4 top-4 opacity-20">
           <Sparkles className="h-32 w-32 text-primary" />
         </div>
         <div className="relative space-y-3">
@@ -39,8 +39,8 @@ export default function NewReleasesPage() {
             New Releases
           </h1>
           <p className="max-w-xl text-muted-foreground">
-            Fresh off the press — discover the latest titles added to our collection this week.
-            Be the first to read what&apos;s new.
+            Fresh off the press — discover the latest titles added to our collection this week. Be
+            the first to read what&apos;s new.
           </p>
         </div>
       </div>
@@ -49,7 +49,10 @@ export default function NewReleasesPage() {
       {loading ? (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {Array.from({ length: 10 }).map((_, i) => (
-            <div key={i} className="aspect-[2/3] animate-pulse rounded-xl bg-card border border-border" />
+            <div
+              key={i}
+              className="aspect-[2/3] animate-pulse rounded-xl border border-border bg-card"
+            />
           ))}
         </div>
       ) : (
@@ -61,8 +64,8 @@ export default function NewReleasesPage() {
       )}
 
       {books.length === 0 && !loading && (
-        <div className="text-center py-20 text-muted-foreground">
-          <Sparkles className="mx-auto h-12 w-12 mb-4 opacity-50" />
+        <div className="py-20 text-center text-muted-foreground">
+          <Sparkles className="mx-auto mb-4 h-12 w-12 opacity-50" />
           <p className="font-semibold">New releases coming soon!</p>
         </div>
       )}

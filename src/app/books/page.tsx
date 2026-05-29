@@ -35,19 +35,24 @@ function BooksContent() {
   const [loading, setLoading] = useState(false);
 
   // Decorative formats checkbox state
-  const [selectedFormats, setSelectedFormats] = useState<string[]>(["paperback", "hardcover", "ebook", "audiobook"]);
+  const [selectedFormats, setSelectedFormats] = useState<string[]>([
+    "paperback",
+    "hardcover",
+    "ebook",
+    "audiobook",
+  ]);
 
   // Standard category count map matching the mockup
   const categoryCounts: Record<string, number> = {
-    "fiction": 892,
+    fiction: 892,
     "non-fiction": 623,
     "science-fiction": 312,
-    "fantasy": 284,
+    fantasy: 284,
     "mystery-thriller": 276,
-    "romance": 228,
+    romance: 228,
     "young-adult": 195,
-    "biography": 142,
-    "technology": 94,
+    biography: 142,
+    technology: 94,
   };
 
   const formatCounts = [
@@ -98,20 +103,19 @@ function BooksContent() {
   };
 
   const currentCategoryName = category
-    ? categories.find((c) => c.slug === category)?.name ?? "Selected Category"
+    ? (categories.find((c) => c.slug === category)?.name ?? "Selected Category")
     : "All Categories";
 
   return (
-    <div className="container py-8 px-4 md:px-8">
+    <div className="container px-4 py-8 md:px-8">
       <div className="grid gap-8 lg:grid-cols-[300px_1fr]">
-        
         {/* Sidebar Navigation & Filters */}
-        <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
+        <aside className="h-fit space-y-6 lg:sticky lg:top-24">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-black tracking-tight text-foreground">Browse Books</h2>
             <button
               onClick={resetFilters}
-              className="text-xs font-bold text-muted-foreground hover:text-primary uppercase tracking-wider transition-colors"
+              className="text-xs font-bold uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
             >
               Reset Filters
             </button>
@@ -119,7 +123,9 @@ function BooksContent() {
 
           {/* Search Bar */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Search</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Search
+            </label>
             <div className="relative">
               <input
                 id="search-input"
@@ -137,7 +143,9 @@ function BooksContent() {
 
           {/* Categories list in sidebar */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Category</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Category
+            </label>
             <div className="space-y-1">
               {/* All Categories Option */}
               <button
@@ -152,7 +160,9 @@ function BooksContent() {
                 }`}
               >
                 <span>All Categories</span>
-                <span className={`text-xs ${category === "" ? "text-primary-foreground/80" : "text-muted-foreground/60"}`}>
+                <span
+                  className={`text-xs ${category === "" ? "text-primary-foreground/80" : "text-muted-foreground/60"}`}
+                >
                   2,543
                 </span>
               </button>
@@ -175,7 +185,9 @@ function BooksContent() {
                     }`}
                   >
                     <span>{c.name}</span>
-                    <span className={`text-xs ${isActive ? "text-primary-foreground/80" : "text-muted-foreground/60"}`}>
+                    <span
+                      className={`text-xs ${isActive ? "text-primary-foreground/80" : "text-muted-foreground/60"}`}
+                    >
                       {displayCount}
                     </span>
                   </button>
@@ -186,7 +198,9 @@ function BooksContent() {
 
           {/* Sort selection */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Sort By</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Sort By
+            </label>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
@@ -201,7 +215,9 @@ function BooksContent() {
 
           {/* Book format filters */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Format</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Format
+            </label>
             <div className="space-y-2">
               {formatCounts.map((f) => {
                 const isChecked = selectedFormats.includes(f.id);
@@ -209,17 +225,25 @@ function BooksContent() {
                   <div
                     key={f.id}
                     onClick={() => toggleFormat(f.id)}
-                    className="flex cursor-pointer items-center justify-between text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="flex cursor-pointer items-center justify-between text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     <div className="flex items-center gap-2.5">
-                      <div className={`flex h-4 w-4 items-center justify-center rounded border transition-all ${
-                        isChecked ? "border-primary bg-primary text-primary-foreground shadow-[0_0_8px_rgba(29,185,84,0.2)]" : "border-border bg-transparent"
-                      }`}>
+                      <div
+                        className={`flex h-4 w-4 items-center justify-center rounded border transition-all ${
+                          isChecked
+                            ? "border-primary bg-primary text-primary-foreground shadow-[0_0_8px_rgba(29,185,84,0.2)]"
+                            : "border-border bg-transparent"
+                        }`}
+                      >
                         {isChecked && <Check className="h-3 w-3 stroke-[4]" />}
                       </div>
-                      <span className={`font-bold ${isChecked ? "text-foreground" : ""}`}>{f.name}</span>
+                      <span className={`font-bold ${isChecked ? "text-foreground" : ""}`}>
+                        {f.name}
+                      </span>
                     </div>
-                    <span className="text-xs font-semibold text-muted-foreground/60">{f.count.toLocaleString()}</span>
+                    <span className="text-xs font-semibold text-muted-foreground/60">
+                      {f.count.toLocaleString()}
+                    </span>
                   </div>
                 );
               })}
@@ -228,9 +252,9 @@ function BooksContent() {
 
           {/* Interactive Price Range Slider */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-bold text-muted-foreground uppercase tracking-wider">
+            <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-muted-foreground">
               <span>Price Range</span>
-              <span className="text-foreground font-black tracking-normal">₹{maxPrice}</span>
+              <span className="font-black tracking-normal text-foreground">₹{maxPrice}</span>
             </div>
             <div className="space-y-1">
               <input
@@ -240,7 +264,7 @@ function BooksContent() {
                 step="50"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Number(e.target.value))}
-                className="w-full h-1.5 rounded-full bg-secondary appearance-none cursor-pointer accent-primary focus:outline-none"
+                className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-secondary accent-primary focus:outline-none"
               />
               <div className="flex items-center justify-between text-[10px] font-bold text-muted-foreground">
                 <span>₹100</span>
@@ -254,12 +278,14 @@ function BooksContent() {
         <section className="space-y-6">
           <div className="flex items-end justify-between border-b border-border pb-4">
             <div>
-              <h1 className="text-2xl font-black tracking-tight text-foreground md:text-3xl">{currentCategoryName}</h1>
+              <h1 className="text-2xl font-black tracking-tight text-foreground md:text-3xl">
+                {currentCategoryName}
+              </h1>
               <p className="mt-1 text-xs font-semibold text-muted-foreground">
                 Discover your next read from our curated shelves.
               </p>
             </div>
-            <span className="text-xs font-bold text-muted-foreground bg-secondary/40 border border-border rounded-full px-3.5 py-1.5 uppercase tracking-wider">
+            <span className="rounded-full border border-border bg-secondary/40 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
               {category ? `${data.total} Books` : `2,543 Books`}
             </span>
           </div>
@@ -267,7 +293,10 @@ function BooksContent() {
           {loading ? (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="aspect-[2/3] animate-pulse rounded-xl bg-card border border-border" />
+                <div
+                  key={i}
+                  className="aspect-[2/3] animate-pulse rounded-xl border border-border bg-card"
+                />
               ))}
             </div>
           ) : data.items.length === 0 ? (
@@ -275,7 +304,7 @@ function BooksContent() {
               <p className="text-sm font-semibold">No books found in this selection.</p>
               <button
                 onClick={resetFilters}
-                className="mt-4 rounded-full bg-primary px-5 py-2 text-xs font-bold text-primary-foreground hover:opacity-90 active:scale-95 transition-all"
+                className="mt-4 rounded-full bg-primary px-5 py-2 text-xs font-bold text-primary-foreground transition-all hover:opacity-90 active:scale-95"
               >
                 Clear Filters
               </button>
@@ -301,7 +330,7 @@ function BooksContent() {
                 >
                   Prev
                 </Button>
-                <span className="rounded-full bg-secondary/50 border border-border px-5 py-2 text-xs font-bold text-foreground">
+                <span className="rounded-full border border-border bg-secondary/50 px-5 py-2 text-xs font-bold text-foreground">
                   Page {page} of {data.pages}
                 </span>
                 <Button

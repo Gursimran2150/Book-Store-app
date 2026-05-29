@@ -16,7 +16,7 @@ export default async function ProfilePage() {
   });
 
   return (
-    <div className="container max-w-4xl py-10 px-4 space-y-8">
+    <div className="container max-w-4xl space-y-8 px-4 py-10">
       {/* Profile Header */}
       <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
@@ -31,7 +31,11 @@ export default async function ProfilePage() {
               />
             ) : (
               <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-primary/20 bg-primary/10 text-2xl font-black text-primary shadow-lg">
-                {user.name ? user.name.substring(0, 2).toUpperCase() : <User className="h-10 w-10" />}
+                {user.name ? (
+                  user.name.substring(0, 2).toUpperCase()
+                ) : (
+                  <User className="h-10 w-10" />
+                )}
               </div>
             )}
             <div className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md">
@@ -40,7 +44,7 @@ export default async function ProfilePage() {
           </div>
 
           {/* User Info */}
-          <div className="flex-1 text-center sm:text-left space-y-2">
+          <div className="flex-1 space-y-2 text-center sm:text-left">
             <h1 className="text-3xl font-black tracking-tight text-foreground">
               {user.name ?? "Bookverse Reader"}
             </h1>
@@ -93,29 +97,37 @@ export default async function ProfilePage() {
       </div>
 
       {/* Account Details */}
-      <div className="rounded-xl border border-border bg-card p-6 space-y-5">
+      <div className="space-y-5 rounded-xl border border-border bg-card p-6">
         <h2 className="text-lg font-black text-foreground">Account Details</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Full Name</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Full Name
+            </label>
             <p className="rounded-lg border border-border bg-secondary/30 px-4 py-2.5 text-sm font-semibold text-foreground">
               {user.name ?? "Not set"}
             </p>
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Email Address</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Email Address
+            </label>
             <p className="rounded-lg border border-border bg-secondary/30 px-4 py-2.5 text-sm font-semibold text-foreground">
               {user.email}
             </p>
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Role</label>
-            <p className="rounded-lg border border-border bg-secondary/30 px-4 py-2.5 text-sm font-semibold text-foreground capitalize">
+            <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Role
+            </label>
+            <p className="rounded-lg border border-border bg-secondary/30 px-4 py-2.5 text-sm font-semibold capitalize text-foreground">
               {user.role?.toLowerCase() ?? "user"}
             </p>
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Account Status</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Account Status
+            </label>
             <p className="rounded-lg border border-border bg-secondary/30 px-4 py-2.5 text-sm font-semibold text-primary">
               Active
             </p>

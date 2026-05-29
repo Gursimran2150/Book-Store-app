@@ -2,7 +2,17 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
-import { BookOpen, LogOut, Moon, ShoppingBag, Sun, User, LayoutDashboard, Heart, Search } from "lucide-react";
+import {
+  BookOpen,
+  LogOut,
+  Moon,
+  ShoppingBag,
+  Sun,
+  User,
+  LayoutDashboard,
+  Heart,
+  Search,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/store/cart";
 
@@ -14,9 +24,11 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-xl supports-[backdrop-filter]:bg-background/65">
       <div className="container flex h-16 items-center justify-between gap-4 px-4 md:px-8">
-        
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 text-xl font-black tracking-tight text-foreground transition-opacity hover:opacity-90 flex-shrink-0">
+        <Link
+          href="/"
+          className="flex flex-shrink-0 items-center gap-2 text-xl font-black tracking-tight text-foreground transition-opacity hover:opacity-90"
+        >
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-[0_0_15px_rgba(29,185,84,0.45)]">
             <BookOpen className="h-4.5 w-4.5" />
           </span>
@@ -24,26 +36,41 @@ export function Navbar() {
         </Link>
 
         {/* Center navigation links */}
-        <nav className="hidden items-center gap-1 text-sm font-bold text-muted-foreground lg:flex flex-shrink-0">
-          <Link href="/" className="rounded-full px-4 py-2 text-foreground hover:text-foreground transition-colors">
+        <nav className="hidden flex-shrink-0 items-center gap-1 text-sm font-bold text-muted-foreground lg:flex">
+          <Link
+            href="/"
+            className="rounded-full px-4 py-2 text-foreground transition-colors hover:text-foreground"
+          >
             Home
           </Link>
-          <Link href="/books" className="rounded-full px-4 py-2 hover:text-foreground transition-colors">
+          <Link
+            href="/books"
+            className="rounded-full px-4 py-2 transition-colors hover:text-foreground"
+          >
             Browse Books
           </Link>
-          <Link href="/new-releases" className="rounded-full px-4 py-2 hover:text-foreground transition-colors">
+          <Link
+            href="/new-releases"
+            className="rounded-full px-4 py-2 transition-colors hover:text-foreground"
+          >
             New Releases
           </Link>
-          <Link href="/best-sellers" className="rounded-full px-4 py-2 hover:text-foreground transition-colors">
+          <Link
+            href="/best-sellers"
+            className="rounded-full px-4 py-2 transition-colors hover:text-foreground"
+          >
             Best Sellers
           </Link>
-          <Link href="/coming-soon" className="rounded-full px-4 py-2 hover:text-foreground transition-colors">
+          <Link
+            href="/coming-soon"
+            className="rounded-full px-4 py-2 transition-colors hover:text-foreground"
+          >
             Coming Soon
           </Link>
         </nav>
 
         {/* Mock Search Input in Navbar - Constrained width prevents squishing other elements */}
-        <div className="relative hidden w-full max-w-[160px] sm:block md:max-w-[220px] lg:max-w-[280px] flex-shrink-0">
+        <div className="relative hidden w-full max-w-[160px] flex-shrink-0 sm:block md:max-w-[220px] lg:max-w-[280px]">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
@@ -57,16 +84,24 @@ export function Navbar() {
         </div>
 
         {/* Right navigation / User profile */}
-        <div className="flex items-center gap-3 flex-shrink-0 relative z-10">
-          
+        <div className="relative z-10 flex flex-shrink-0 items-center gap-3">
           {/* Wishlist Link */}
-          <Link href="/books?filter=wishlist" className="hidden items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground md:flex">
+          <Link
+            href="/books?filter=wishlist"
+            className="hidden items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground md:flex"
+          >
             <Heart className="h-4 w-4" />
             <span>Wishlist</span>
           </Link>
 
           {/* Cart Icon */}
-          <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full text-muted-foreground hover:bg-accent hover:text-foreground relative" aria-label="Cart" asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative h-9 w-9 rounded-full text-muted-foreground hover:bg-accent hover:text-foreground"
+            aria-label="Cart"
+            asChild
+          >
             <Link href="/cart">
               <ShoppingBag className="h-4.5 w-4.5" />
               {items.length > 0 && (
@@ -92,13 +127,19 @@ export function Navbar() {
           {session?.user ? (
             <div className="flex items-center gap-2">
               {session.user.role === "ADMIN" && (
-                <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full text-muted-foreground hover:bg-accent hover:text-foreground" aria-label="Admin" asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9 rounded-full text-muted-foreground hover:bg-accent hover:text-foreground"
+                  aria-label="Admin"
+                  asChild
+                >
                   <Link href="/admin">
                     <LayoutDashboard className="h-4.5 w-4.5" />
                   </Link>
                 </Button>
               )}
-              
+
               {/* User Avatar with Google Auth Support */}
               <Link href="/dashboard/profile" className="flex items-center gap-2">
                 {session.user.image ? (
@@ -112,7 +153,11 @@ export function Navbar() {
                   />
                 ) : (
                   <div className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-secondary text-xs font-black text-foreground hover:bg-muted">
-                    {session.user.name ? session.user.name.substring(0, 2).toUpperCase() : <User className="h-4 w-4" />}
+                    {session.user.name ? (
+                      session.user.name.substring(0, 2).toUpperCase()
+                    ) : (
+                      <User className="h-4 w-4" />
+                    )}
                   </div>
                 )}
               </Link>
@@ -129,15 +174,16 @@ export function Navbar() {
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" className="rounded-full text-xs font-bold text-muted-foreground hover:text-foreground" asChild>
-                <a href="/login">
-                  Login
-                </a>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="rounded-full text-xs font-bold text-muted-foreground hover:text-foreground"
+                asChild
+              >
+                <a href="/login">Login</a>
               </Button>
-              <Button size="sm" className="rounded-full text-xs font-bold px-4" asChild>
-                <a href="/register">
-                  Sign Up
-                </a>
+              <Button size="sm" className="rounded-full px-4 text-xs font-bold" asChild>
+                <a href="/register">Sign Up</a>
               </Button>
             </div>
           )}

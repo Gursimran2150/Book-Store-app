@@ -29,7 +29,7 @@ export function BookCard({ book }: Props) {
       <div>
         {/* Cover Image */}
         <Link href={`/books/${book.id}`}>
-          <div className="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-secondary shadow-md dark:shadow-[0_12px_32px_rgba(0,0,0,0.45)] transition-shadow group-hover:shadow-lg dark:group-hover:shadow-[0_16px_40px_rgba(0,0,0,0.65)]">
+          <div className="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-secondary shadow-md transition-shadow group-hover:shadow-lg dark:shadow-[0_12px_32px_rgba(0,0,0,0.45)] dark:group-hover:shadow-[0_16px_40px_rgba(0,0,0,0.65)]">
             <Image
               src={book.image}
               alt={book.title}
@@ -45,7 +45,7 @@ export function BookCard({ book }: Props) {
         <div className="mt-4 space-y-1.5">
           <Link
             href={`/books/${book.id}`}
-            className="line-clamp-1 block text-sm font-extrabold tracking-tight text-foreground hover:text-primary transition-colors"
+            className="line-clamp-1 block text-sm font-extrabold tracking-tight text-foreground transition-colors hover:text-primary"
           >
             {book.title}
           </Link>
